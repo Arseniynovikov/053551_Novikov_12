@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}BASE{% endblock title %}</title>
+
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body class="container">
+
+<header class="p-3 text-bg-dark">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start border-bottom">
+
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
+                <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-body-secondary">Главная</a></li>
+                <li class="nav-item"><a href="{% url 'exhibits' %}" class="nav-link px-2 text-body-secondary">Экспонаты</a></li>
+                <li class="nav-item"><a href="{% url 'schedule' %}" class="nav-link px-2 text-body-secondary">Расписание</a></li>
+                <li class="nav-item"><a href="{% url 'contacts' %}" class="nav-link px-2 text-body-secondary">Контакты</a></li>
+            </ul>
+
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+                <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+            </form>
+
+            {% if user.is_authenticated %}
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="{{ user.profile.image.url }}" alt="{{ user.username }}" width="32" height="32" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Профиль</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">Выход</a></li>
+                    </ul>
+                </div>
+            {% else %}
+                <div class="text-end">
+                    <button type="button" onclick="document.location='{% url 'login' %}'" class="btn btn-outline me-2">Вход</button>
+                    <button type="button" onclick="document.location='{% url 'register' %}'" class="btn btn-warning">Регистрация</button>
+                </div>
+            {% endif %}
+        </div>
+</header>
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }}">
+    {{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+{% block content %} <h2>BASE</h2> {% endblock content %}
+
+<footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+        <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-body-secondary">Главная</a></li>
+        <li class="nav-item"><a href="{% url 'exhibits' %}" class="nav-link px-2 text-body-secondary">Экспонаты</a></li>
+        <li class="nav-item"><a href="{% url 'schedule' %}" class="nav-link px-2 text-body-secondary">Расписание</a></li>
+        <li class="nav-item"><a href="{% url 'contacts' %}" class="nav-link px-2 text-body-secondary">Контакты</a></li>
+    </ul>
+    <p class="text-center text-body-secondary">© 2024 | Новиков Арсений | 05350117</p>
+</footer>
+</body>
+</html>
