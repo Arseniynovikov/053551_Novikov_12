@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{author.first_name}} {{author.second_name}}{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+  <div class="col-auto d-none d-lg-block">
+    <img class="rounded-circle account-img" src="{{ author.image.url }}">
+  </div>
+  <div class="col p-4 d-flex flex-column position-static">
+    <h3 class="mb-0">{{author.first_name}} {{author.second_name}}</h3>
+    <div class="mb-1 text-body-secondary">дата рождения:
+      {% if author.date_of_birth is not None %}
+        {{author.date_of_birth}}
+      {% else %}
+        неизвестно
+      {% endif%}
+    </div>
+  </div>
+</div>
+ <p>{{author.history}}</p>
+{% endblock content %}

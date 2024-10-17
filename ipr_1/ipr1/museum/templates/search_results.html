@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Поиск...{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<h2>Результаты поиска для: "{{ query }}"</h2>
+
+{% if exposition_results %}
+    <ul>
+    {% for result in exposition_results %}
+        <li>{{ result.name }}</li>  <!-- Подставьте нужное поле для отображения -->
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Ничего не найдено.</p>
+{% endif %}
+
+
+{% if exhibit_results %}
+    <ul>
+    {% for result in exhibit_results %}
+        <li>{{ result.name }}</li>  <!-- Подставьте нужное поле для отображения -->
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Ничего не найдено.</p>
+{% endif %}
+
+
+{% if author_results %}
+    <ul>
+    {% for result in author_results %}
+        <li>{{ result.first_name }}</li>  <!-- Подставьте нужное поле для отображения -->
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Ничего не найдено.</p>
+{% endif %}
+{% endblock content %}

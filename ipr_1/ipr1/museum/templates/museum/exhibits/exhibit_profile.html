@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{exhibit.name}}{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+  <div class="col-auto d-none d-lg-block">
+    <img class="rounded-circle account-img" src="{{ exhibit.image.url }}">
+  </div>
+  <div class="col p-4 d-flex flex-column position-static">
+    <h3 class="mb-0">{{ exhibit.name }}</h3>
+    <div class="mb-1 text-body-secondary">{{hall.floor}} этаж - "{{hall.name}}"</div>
+    <p class="mb-auto"><a href="#">{{exhibit.form.name}}</a></p>
+
+    {% if exhibit.autor is None %}
+      <p class="mb-auto">автор: неизвестно</p>
+    {% else %}
+      <p class="mb-auto"><a href="{% url 'author_profile' author_id=author.id %}">{{author.first_name}} {{author.second_name}}</a></p>
+    {% endif %}
+
+
+    {% if exhibit.year_of_creation is None %}
+      <p class="mb-auto">год создания: неизвестно</p>
+    {% else %}
+      <p class="mb-auto">год создания: {{exhibit.year_of_creation}}</p>
+    {% endif %}
+  </div>
+</div>
+ <p>{{exhibit.description}}</p>
+{% endblock content %}

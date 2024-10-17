@@ -14,14 +14,25 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start border-bottom">
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0 ">
-                <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-body-secondary">Главная</a></li>
+                <li class="nav-item"><a href="{% url 'expositions' %}" class="nav-link px-2 text-body-secondary">Экпозиции</a></li>
                 <li class="nav-item"><a href="{% url 'exhibits' %}" class="nav-link px-2 text-body-secondary">Экспонаты</a></li>
                 <li class="nav-item"><a href="{% url 'schedule' %}" class="nav-link px-2 text-body-secondary">Расписание</a></li>
-                <li class="nav-item"><a href="{% url 'contacts' %}" class="nav-link px-2 text-body-secondary">Контакты</a></li>
+                <li class="nav-item"><a href="{% url 'authors' %}" class="nav-link px-2 text-body-secondary">Авторы</a></li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle px-2 text-body-secondary" id="formsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Виды искусства
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="formsDropdown">
+                        {% for form_of_art in forms_of_art %}
+                            <li><a class="dropdown-item" href="{% url 'form_profile' form_id=form_of_art.id %}">{{form_of_art.name}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
             </ul>
 
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="{% url 'search' %}">
+                <input type="text" name="q" class="form-control form-control-dark text-bg-dark" placeholder="Поиск..." value="{{ request.GET.q }}">
             </form>
 
             {% if user.is_authenticated %}
@@ -57,12 +68,41 @@
 
 {% block content %} <h2>BASE</h2> {% endblock content %}
 
-<footer class="py-3 my-4">
+{% if page_obj %}
+    <nav class="mt-4" aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; Первая</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+          </li>
+        {% endif %}
+
+        <li class="page-item active">
+          <span class="page-link">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+          </span>
+        </li>
+
+        {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Следующая</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя &raquo;</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+{% endif %}
+<footer class="py-3 my-4 border">
     <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-        <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-body-secondary">Главная</a></li>
+        <li class="nav-item"><a href="{% url 'expositions' %}" class="nav-link px-2 text-body-secondary">Экпозиции</a></li>
         <li class="nav-item"><a href="{% url 'exhibits' %}" class="nav-link px-2 text-body-secondary">Экспонаты</a></li>
         <li class="nav-item"><a href="{% url 'schedule' %}" class="nav-link px-2 text-body-secondary">Расписание</a></li>
-        <li class="nav-item"><a href="{% url 'contacts' %}" class="nav-link px-2 text-body-secondary">Контакты</a></li>
+        <li class="nav-item"><a href="{% url 'authors' %}" class="nav-link px-2 text-body-secondary">Авторы</a></li>
     </ul>
     <p class="text-center text-body-secondary">© 2024 | Новиков Арсений | 05350117</p>
 </footer>
