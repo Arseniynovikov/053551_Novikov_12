@@ -4,6 +4,8 @@ from django.db import models
 from django.db.models import TextField, ImageField, DateField, IntegerField, FloatField, CharField, ForeignKey, PROTECT, \
     DateTimeField
 
+from users.models import CustomUser
+
 
 class EmployeePost(models.Model):
     name = CharField(max_length=60)
@@ -13,7 +15,7 @@ class EmployeePost(models.Model):
         return f'{self.name}'
 
 class Employee(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     post = models.ForeignKey(EmployeePost, on_delete=models.PROTECT)
 
     def __str__(self):
